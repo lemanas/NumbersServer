@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using RandomNumberServer.Hubs;
 
 namespace RandomNumberServer
@@ -18,6 +19,11 @@ namespace RandomNumberServer
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Location API", Version = "v1" });
+            });
+
             services.AddSignalR();
             services.AddControllers();
         }
@@ -32,6 +38,12 @@ namespace RandomNumberServer
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Numbers API V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {

@@ -5,11 +5,11 @@ namespace RandomNumberServer.Hubs
 {
     public class NumbersBroadcastHub : Hub
     {
-        public const string PublishEventName = "PublishNumber";
+        public const string PublishEventName = "PublishLocation";
 
-        public Task BroadcastNumber(int senderId, int number)
+        public Task BroadcastLocation(object obj)
         {
-            return Clients.All.SendAsync(PublishEventName, senderId, number);
+            return Clients.All.SendAsync(PublishEventName, obj);
         }
     }
 }

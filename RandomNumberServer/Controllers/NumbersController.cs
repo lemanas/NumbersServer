@@ -16,10 +16,11 @@ namespace RandomNumberServer.Controllers
             _context = context;
         }
 
-        [HttpGet("{senderId}/{number}")]
-        public Task PublishNumber(int senderId, int number)
+        [HttpPost]
+        public async Task<IActionResult> PublishLocation([FromBody] object obj)
         {
-            return _context.Clients.All.SendAsync("PublishNumber", senderId, number);
+            await _context.Clients.All.SendAsync("PublishLocation", obj).ConfigureAwait(false);
+            return Ok(obj);
         }
     }
 }
